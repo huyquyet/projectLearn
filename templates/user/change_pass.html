@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group {% if field.errors %} has-error {% endif %} has-feedback">
+                <span class="text-success">{{ field.name }}</span>
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
+                       class="form-control"
+                       placeholder="{{ field.name }}">
+{#                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>#}
+                <span class="help-block">{{ field.errors }}</span>
+            </div>
+        {% endfor %}
+    <button class="btn btn-success" type="submit" name="submit" >Update</button>
+    <a role="button" class="btn btn-danger" href="{% url 'fels:index' %}" >Cancel</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% if user.is_authenticated %}
+    <div class="btn-group" role="group" aria-label="..." style="float: right;">
+
+        <a type="button" class="btn btn-default" href="{% url 'fels:index' %}">
+            {{ user.first_name }} {{ user.last_name }}
+        </a>
+
+        <a href="{% url 'fels:logout' %}" class="btn btn-default" role="button">Thoat</a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Setting<span
+                    class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'fels:edit_profile' user.pk %}">Thông tin ca nhân</a></li>
+                <li><a href="{% url 'fels:change_pass'%}">Đổi mật khẩu</a></li>
+            </ul>
+        </div>
+    </div>
+{% else %}
+    {% include 'user/login_inline.html' %}
+{% endif %}

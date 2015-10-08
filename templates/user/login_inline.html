@@ -1,0 +1,17 @@
+<form action="{% url 'fels:login' %}" method="post" role="form" class="form-inline" style="float: right">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="sr-only" for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd" name="password">
+    </div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-success"> Singin</button>
+        <a role="button" href="{% url 'fels:register' %}" class="btn btn-info">Register</a>
+
+    </div>
+</form>
+
