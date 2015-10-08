@@ -110,11 +110,11 @@ def changepass(request):
 def adminindex(request):
     if request.user.is_authenticated():
         if request.user.is_staff:
-            return render(request, '')
+            return render(request, 'admin/index.html')
         else:
-            return render(request, '')
+            return HttpResponseRedirect(reverse('fels:login_admin'))
     else:
-        return render(request, '')
+        return HttpResponseRedirect(reverse('fels:login_admin'))
 
 
 class AdminLoginView(FormView):
