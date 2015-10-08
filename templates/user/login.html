@@ -1,0 +1,29 @@
+{%  extends 'base.html' %}
+{% block content %}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/admin/login"><b>Book Review System</b></a>
+    </div>
+    <div class="login-box-body">
+        <p class="login-box-msg">Login And Manager</p>
+
+        <form action="{% url 'fels:login' %}" method="post" role="form" class="form-inline">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group {% if field.errors %} has-error {% endif %} has-feedback">
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control"
+                           placeholder="{{ field.name }}">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span class="help-block">{{ field.errors }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-xs-8"></div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
