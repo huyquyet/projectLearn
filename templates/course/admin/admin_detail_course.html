@@ -1,0 +1,80 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    List Course
+{% endblock %}
+{% block content_header %}
+    <div class="row">
+        <div class="col-lg-5">
+            <span class="text-blue">Detail Course</span>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-5 ">
+            <div class="thumbnail">
+                <h3><span class="text-aqua "> Name</span></h3>
+
+                <div class="thumbnail">
+                    {{ detail_course.name }}
+                </div>
+                <legend>
+                    <h3><span class="text-aqua "> Content</span></h3>
+                </legend>
+                {{ detail_course.content }}
+            </div>
+        </div>
+
+        <div class="col-lg-6 ">
+            <div class="thumbnail">
+                <legend>
+                    <h3><span class="text-aqua ">List Lesson</span></h3>
+                </legend>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-lg-1">ID</th>
+                        <th class="col-lg-3">Name</th>
+                        <th class="col-lg-4">Content</th>
+                        <th class="col-lg-2">Date</th>
+                        <th class="col-lg-1">
+                            <a href="{% url 'admin:admin-create-lesson' %}" role="button"
+                               class="btn btn-danger btn-sm">Create New</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in list_lesson %}
+                        <tr>
+                            <td class="col-lg-1"><a class=" text-info"
+                                                    href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.id }}</a>
+                            </td>
+                            <td class="col-lg-3"><a class=" text-info"
+                                                    href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.name }}</a>
+                            </td>
+                            <td class="col-lg-4"><a class=" text-info"
+                                                    href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.content }}</a>
+                            </td>
+                            <td class="col-lg-2">{{ obj.create_at }}</td>
+                            <td class="col-lg-1">
+                                <a href="{% url 'admin:admin-edit-lesson' obj.id %}"
+                                   class="btn btn-success btn-xs no-margin" role="button">Edit</a>
+
+                                <form action="{% url 'admin:admin-delete-lesson' %}" method="post"
+                                      style="float: right;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id_course" value="{{ obj.id }}">
+                                    <button type="submit" class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure you want remover user ?')">Delete
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

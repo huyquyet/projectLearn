@@ -1,8 +1,7 @@
 # Create your views here.
 from django.contrib import auth
-from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -10,9 +9,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, ListView, CreateView, UpdateView
+from django.views.generic import FormView, ListView, CreateView, UpdateView, DetailView
 
 from lesson.models import Course
+
 
 
 class IndexView(ListView):
@@ -107,31 +107,3 @@ def changepass(request):
     return render(request, 'user/change_pass.html', {'form': form})
 
 
-def adminindex(request):
-    if request.user.is_authenticated():
-        if request.user.is_staff:
-            return render(request, 'admin/index.html')
-        else:
-            return HttpResponseRedirect(reverse('fels:login_admin'))
-    else:
-        return HttpResponseRedirect(reverse('fels:login_admin'))
-
-
-class AdminLoginView(FormView):
-    form_class = AdminAuthenticationForm
-    template_name = 'admin/login.html'
-
-    def get_success_url(self):
-        link = self.request.POST.get('next', False)
-        if link:
-            return link
-        else:
-            return reverse('fels:index')
-
-    def dispatch(self, request, *args, **kwargs):
-        return super(AdminLoginView, self).dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        user_form = form.get_user()
-        login(self.request, user_form)
-        return super(AdminLoginView, self).form_valid(form)

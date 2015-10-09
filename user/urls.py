@@ -19,12 +19,6 @@ urlpatterns = [
 
 
 
-    ##################################################
-    ##
-    ## Url Admin
-    ##
-    ##################################################
-    url(r'^admin/$', views.adminindex, name='index_admin'),
-    url(r'^admin/login/$', views.AdminLoginView.as_view(), name='login_admin'),
+
 
 ]
