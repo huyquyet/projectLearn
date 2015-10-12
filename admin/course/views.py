@@ -16,7 +16,8 @@ requirement_admin = user_passes_test(lambda u: u.is_staff, login_url='admin:logi
 class AdminListCourseView(ListView):
     model = Course
     template_name = 'course/admin/admin_list_course.html'
-    context_object_name = 'list_course'
+    # context_object_name = 'list_course'
+    paginate_by = 15
 
     @method_decorator(requirement_admin)
     def dispatch(self, request, *args, **kwargs):

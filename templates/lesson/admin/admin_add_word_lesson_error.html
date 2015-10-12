@@ -1,0 +1,20 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Add Word
+{% endblock %}
+{% block content_header %}
+    {#    <div class="col-lg-5">#}
+    {#        <span class="text-blue">Detail Word</span>#}
+    {#    </div>#}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-11 margin thumbnail">
+            <legend>
+                Add Word Error
+            </legend>
+            {{ error }}
+            <a href={% url 'admin:admin-add-word-lesson' id_lesson %}> Click</a> để quay lại
+        </div>
+    </div>
+{% endblock %}

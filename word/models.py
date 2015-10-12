@@ -7,7 +7,7 @@ class Language(models.Model):
     name = models.TextField(default='English')
 
     def __unicode__(self):
-        return self.name
+        return self.pk
 
 
 class Word(models.Model):
@@ -22,4 +22,4 @@ class Word(models.Model):
 class Question(models.Model):
     word = models.ForeignKey(Word, related_name='question')
     answer = models.TextField()
-    check = models.BooleanField()
+    check = models.BooleanField(help_text='Answer True or False')

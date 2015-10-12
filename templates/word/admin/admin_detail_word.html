@@ -1,0 +1,121 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Detail Word
+{% endblock %}
+{% block content_header %}
+    {#    <div class="col-lg-5">#}
+    {#        <span class="text-blue">Detail Word</span>#}
+    {#    </div>#}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-4  ">
+            <div class="thumbnail">
+                <legend>
+                    Detail Word 1
+                    <span style="float: right;">
+                        <a href="{% url 'admin:admin-index-word' %} "
+                           class="btn btn-success btn-xs no-margin" role="button">Back</a>
+
+                        <a href="{% url 'admin:admin-edit-word' detail_word.id %} "
+                           class="btn btn-success btn-xs no-margin" role="button">Edit</a>
+
+                <form action="{% url 'admin:admin-edit-word' detail_word.id %}" method="post"
+                      style="float: right; margin: 0 0 0 10px;">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_course" value="{{ detail_word.id }}">
+                    <button type="submit" class="btn btn-danger btn-xs"
+                            onclick="return confirm('Are you sure you want remover user ?')">Delete
+                    </button>
+                </form>
+                    </span>
+                </legend>
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
+                </p>
+
+            </div>
+        </div>
+        <div class="col-lg-4  ">
+            <div class="thumbnail">
+                <legend>
+                    Questions word
+                    <span style="float: right;margin: 0 25px 0 0">
+                        {% if question %}
+                            {#                            <a href="{% url 'admin:admin-edit-word' detail_word.id %} "#}
+                            {#                               class="btn btn-success btn-xs no-margin" role="button">Edit</a>#}
+                            {% if num < 3 %}
+                                <a href="{% url 'admin:admin-create-question-word' detail_word.id %} "
+                                   class="btn btn-success btn-xs no-margin" role="button">Add</a>
+                            {% else %}
+                                <button class="btn btn-success btn-xs disabled" role="button">Success</button>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'admin:admin-create-question-word' detail_word.id %} "
+                               class="btn btn-info btn-xs no-margin" role="button">Create</a>
+                        {% endif %}
+                    </span>
+                </legend>
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td class="col-lg-1">STT</td>
+                        <td class="col-lg-5">Answer</td>
+                        <td class="col-lg-3">Check</td>
+                        <td class="col-lg-3">Check</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in question %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.answer }}</td>
+                            <td>{{ obj.check }}</td>
+                            <td>
+                                <form action="{% url 'admin:admin-delete-question' %}" method="post"
+                                      style="float: right; margin: 0 15px 0 0">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ detail_word.id }}" name="id_word">
+                                    <input type="hidden" value="{{ obj.id }}" name="id_question">
+                                    <button type="submit" class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure you want delete question ?')">Delete
+                                    </button>
+                                </form>
+                                <a href="" role="button" class="btn btn-info btn-xs ">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-4  ">
+            <div class="thumbnail">
+                <legend>
+                    Lesson
+                </legend>
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
+                </p>
+
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
+                </p>
+
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
+                </p>
+
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

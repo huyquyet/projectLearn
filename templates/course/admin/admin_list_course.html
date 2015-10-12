@@ -10,22 +10,41 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-11 margin">
+            <div style="padding: 2px 0 3px 0; margin: 0 0 10px 0; float: left">
+                <div>
+                    <a href="{% url 'admin:admin-list-course' %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">All Language</a>
+                    <a href="{% url 'admin:admin-word' 1 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">English</a>
+                    <a href="{% url 'admin:admin-word' 2 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Japanese</a>
+                    <a href="{% url 'admin:admin-word' 3 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Chinese</a>
+                    <a href="{% url 'admin:admin-word' 4 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">French</a>
+
+                </div>
+            </div>
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="col-lg-1">ID</th>
-                    <th class="col-lg-4">Name</th>
+                    <th class="col-lg-3">Name</th>
                     <th class="col-lg-6">Content</th>
+                    <th class="col-lg-1">Language</th>
                     <th class="col-lg-1"><a href="{% url 'admin:admin-create-course' %}" role="button"
                                             class="btn btn-danger btn-sm">Create New</a></th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for obj in list_course %}
+                {% for obj in page_obj %}
                     <tr>
                         <td class="col-lg-1"><a class=" text-info" href="{% url 'admin:admin-detail-course' obj.id %}">{{ obj.id }}</a></td>
                         <td class="col-lg-4"><a class=" text-info" href="{% url 'admin:admin-detail-course' obj.id %}">{{ obj.name }}</a></td>
-                        <td class="col-lg-6"><a class=" text-info" href="{% url 'admin:admin-detail-course' obj.id %}">{{ obj.content }}</a></td>
+                        <td class="col-lg-6"><a class=" text-info" href="{% url 'admin:admin-detail-course' obj.id %}">{{ obj.content|truncatewords:20 }}</a></td>
+                        <td class="col-lg-6"><a class=" text-info"
+                                                href="{% url 'admin:admin-detail-course' obj.id %}">{{ obj.language.name }}</a>
+                        </td>
                         <td class="col-lg-1">
                             <a href="{% url 'admin:admin-edit-course' obj.id %}"
                                class="btn btn-success btn-xs no-margin" role="button">Edit</a>
@@ -43,6 +62,21 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="pagination">
+                <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                    <span class="current">
+                    Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+                </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
 {% endblock %}

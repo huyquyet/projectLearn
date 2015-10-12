@@ -14,13 +14,13 @@
                 <div>
                     <a href="{% url 'admin:admin-index-word' %}" role="button"
                        class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">All word</a>
-                    <a href="{% url 'admin:admin-word' 1 %}" role="button"
+                    <a href="{% url 'admin:admin-word' 1%}" role="button"
                        class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Create New 1</a>
-                    <a href="{% url 'admin:admin-word' 2 %}" role="button"
+                    <a href="{% url 'admin:admin-word' 2%}" role="button"
                        class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Create New 2</a>
-                    <a href="{% url 'admin:admin-word' 3 %}" role="button"
+                    <a href="{% url 'admin:admin-word' 3%}" role="button"
                        class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Create New 3</a>
-                    <a href="{% url 'admin:admin-word' 4 %}" role="button"
+                    <a href="{% url 'admin:admin-word' 4%}" role="button"
                        class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Create New 4</a>
 
                 </div>
@@ -31,13 +31,13 @@
             </div>
             <table class="table table-bordered table-hover">
                 <thead>
-                        <tr>
-                            <th class="col-lg-1">ID</th>
-                            <th class="col-lg-3">Name</th>
-                            <th class="col-lg-6">Content</th>
-                            <th class="col-lg-1">Language</th>
-                            <th class="col-lg-1">Options</th>
-                        </tr>
+                <tr>
+                    <th class="col-lg-1">ID</th>
+                    <th class="col-lg-3">Name</th>
+                    <th class="col-lg-6">Content</th>
+                    <th class="col-lg-1">Language</th>
+                    <th class="col-lg-1">Options</th>
+                </tr>
                 </thead>
                 <tbody>
                 {% for obj in page_obj %}
@@ -56,19 +56,19 @@
                         </td>
                         <td class="col-lg-1">
                             <a href="{% url 'admin:admin-edit-word' obj.id %}"
-                                       class="btn btn-success btn-xs no-margin" role="button">Edit</a>
+                               class="btn btn-success btn-xs no-margin" role="button">Edit</a>
 
                             <form action="{% url 'admin:admin-edit-word' obj.id %}" method="post"
-                                          style="float: right;">
-                                        {% csrf_token %}
+                                  style="float: right;">
+                                {% csrf_token %}
                                 <input type="hidden" name="id_course" value="{{ obj.id }}">
                                 <button type="submit" class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure you want remover user ?')">Delete
+                                        onclick="return confirm('Are you sure you want remover user ?')">Delete
                                 </button>
                             </form>
                         </td>
 
-                        </tr>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

@@ -20,6 +20,7 @@ class Lesson(models.Model):
     name = models.TextField()
     content = models.TextField()
     create_at = models.DateField(default=timezone.now)
+    status = models.BooleanField(default=False)
     course = models.ForeignKey(Course, related_name='lesson')
     user = models.ManyToManyField(User, through='LessonUser', related_name='lesson')
     word = models.ManyToManyField(Word, related_name='lesson')

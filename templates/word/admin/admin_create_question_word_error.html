@@ -1,0 +1,20 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Create Question Word
+{% endblock %}
+{% block content_header %}
+    {#    <div class="col-lg-5">#}
+    {#        <span class="text-blue">Detail Word</span>#}
+    {#    </div>#}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-11 margin thumbnail">
+            <legend>
+                Create Question Word
+            </legend>
+            {{ error }}
+            <a href={% url 'admin:admin-detail-word' id %}> Click</a> để quay lại trang Detail
+        </div>
+    </div>
+{% endblock %}

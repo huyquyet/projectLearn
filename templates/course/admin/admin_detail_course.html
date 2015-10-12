@@ -18,6 +18,11 @@
                 <div class="thumbnail">
                     {{ detail_course.name }}
                 </div>
+                <h3><span class="text-aqua "> Language</span></h3>
+
+                <div class="thumbnail">
+                    {{ detail_course.language.name }}
+                </div>
                 <legend>
                     <h3><span class="text-aqua "> Content</span></h3>
                 </legend>
@@ -53,7 +58,7 @@
                                                     href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.name }}</a>
                             </td>
                             <td class="col-lg-4"><a class=" text-info"
-                                                    href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.content }}</a>
+                                                    href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.content|truncatewords:10 }}</a>
                             </td>
                             <td class="col-lg-2">{{ obj.create_at }}</td>
                             <td class="col-lg-1">

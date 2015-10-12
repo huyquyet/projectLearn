@@ -1,0 +1,42 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Edit Word
+{% endblock %}
+{% block content_header %}
+    <div class="col-lg-5">
+        <span class="text-blue">Edit Word</span>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-11 margin thumbnail">
+            <form action="" method="post" class="form-group">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group {% if field.errors %} has-error {% endif %} has-feedback">
+                        <span class="text-success">{{ field.name }}</span>
+                        <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
+                               class="form-control" placeholder="{{ field.name }}" value="{{ field.value }}">
+                        <span class="help-block">{{ field.errors }}</span>
+                    </div>
+                {% endfor %}
+                <label class="text-info">Lựa chọn ngôn ngữ : </label>
+                <select name="lang_id">
+                    {% for obj in list_lang %}
+                        {% if lang_word == obj.id %}
+                            <option value="{{ obj.id }}" selected ="selected">{{ obj.name }}</option>
+                        {% else %}
+                            <option value="{{ obj.id }}">{{ obj.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+                <div style="margin: 0 0 0 10px;">
+                    <button role="button" type="submit" class="btn btn-info">Edit</button>
+                    <a href="{% url 'admin:admin-index-word' %}" role="button" class="btn btn-danger">Cancel</a>
+                    <a href="javascript:history.back()" role="button" class="btn btn-danger">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

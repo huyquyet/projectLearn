@@ -1,0 +1,35 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Create Question Word
+{% endblock %}
+{% block content_header %}
+    {#    <div class="col-lg-5">#}
+    {#        <span class="text-blue">Detail Word</span>#}
+    {#    </div>#}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-11 margin thumbnail">
+            <legend>
+                Create Question Word
+            </legend>
+            {% if number %}
+                Từ <strong class="text-danger">{{ detail_word.name }}</strong> đã đủ 3 câu trả lời và ko thể Create thêm câu trả lời nữa.
+                <a href="javascript:history.back()">Click</a> vào đây để quay lại
+            {% else %}
+                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div style="margin: 0 0 0 10px;">
+                        <button role="button" type="submit" class="btn btn-info">Create</button>
+                        <a href="{% url 'admin:admin-index-word' %}" role="button" class="btn btn-danger">Cancel</a>
+                        <a href="javascript:history.back()" role="button" class="btn btn-danger">Back</a>
+                    </div>
+                </form>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Add Word - Lesson
+{% endblock %}
+{% block content_header %}
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-lg-12">
+            <legend>
+                <span class="text-blue">Add Word - Lesson</span>
+            </legend>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-1">
+{#            <div class="thumbnail">#}
+                <a href="{% url 'admin:admin-detail-lesson' detail_lesson.id %}" role="button" class="btn btn-success btn-sm col-lg-12">Finish</a><br><br>
+                <a href="{% url 'admin:admin-detail-lesson' detail_lesson.id %}" role="button" class="btn btn-info btn-sm col-lg-12">Back</a>
+{#            </div>#}
+        </div>
+        <div class="col-lg-5 ">
+            <div class="thumbnail">
+                <legend>
+                    Word in Lesson
+                    {% if count_word < 10 %}
+                        <span style="float: right;margin-right: 20px;" class="text-success">{{ count_word }}</span>
+                    {% else %}
+                        <span style="float: right;margin-right: 20px;" class="text-danger">{{ count_word }}</span>
+                    {% endif %}
+                </legend>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td class="col-lg-1">STT</td>
+                        <td class="col-lg-4">Word</td>
+                        <td class="col-lg-5">Meaning</td>
+                        <td class="col-lg-2"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in list_word %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.meaning }}</td>
+                            <td>
+                                <form action="{% url 'admin:admin-re-word' %}" method="post"
+                                      style="float: right; margin: 0 15px 0 0">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ obj.id }}" name="id_word">
+                                    <input type="hidden" value="{{ detail_lesson.id }}" name="id_lesson">
+                                    <button type="submit" class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure you want remover word ?')">Remover
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="thumbnail">
+                <legend>
+                    Word not in lesson
+                </legend>
+                {% if count_word < 10 %}
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <td class="col-lg-1">STT</td>
+                            <td class="col-lg-4">Word</td>
+                            <td class="col-lg-5">Meaning</td>
+                            <td class="col-lg-2"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in list_word_not_in_lesson %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ obj.name }}</td>
+                                <td>{{ obj.meaning }}</td>
+                                <td>
+                                    <form action="{% url 'admin:admin-add-word' %}" method="post"
+                                          style="float: right; margin: 0 15px 0 0">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ obj.id }}" name="id_word">
+                                        <input type="hidden" value="{{ detail_lesson.id }}" name="id_lesson">
+                                        <button type="submit" class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Are you sure you want delete question ?')">Add
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <td class="col-lg-1">STT</td>
+                            <td class="col-lg-4">Word</td>
+                            <td class="col-lg-5">Meaning</td>
+                            <td class="col-lg-2"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in list_word_not_in_lesson %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ obj.name }}</td>
+                                <td>{{ obj.meaning }}</td>
+                                <td>
+                                    <form action="{% url 'admin:admin-add-word' %}" method="post"
+                                          style="float: right; margin: 0 15px 0 0">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ obj.id }}" name="id_word">
+                                        <input type="hidden" value="{{ detail_lesson.id }}" name="id_lesson">
+                                        <button type="submit" class="btn btn-danger btn-xs disabled"
+                                                onclick="return confirm('Are you sure you want delete question ?')">Add
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
