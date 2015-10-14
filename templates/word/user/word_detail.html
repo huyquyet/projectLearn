@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %} Course{% endblock %}
+{% block content %}
+    <div class="col-sm-12" style="margin: 0 0 5px 0">
+        <div class="row">
+            <div class="col-sm-9">
+                <div style="padding: 2px 0 0 0">
+                    <a href="{% url 'word:word-index' %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">All word</a>
+                    <a href="{% url 'word:word-language' 1 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">English</a>
+                    <a href="{% url 'word:word-language' 2 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Japanese</a>
+                    <a href="{% url 'word:word-language' 3 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Chinese</a>
+                    <a href="{% url 'word:word-language' 4 %}" role="button"
+                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">French</a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <span>
+                    <input type="text" name="search" value="" placeholder="search">
+                    <button type="submit" class="btn btn-danger btn-sm">Search</button>
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="thumbnail">
+            <legend>
+                Detail Word
+            </legend>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="thumbnail">
+                        <table style="margin: 0 0 7px 0">
+                            <tr>
+                                <td class="col-sm-6"><span class="text-info"> Từ </span></td>
+                                <td class="col-sm-6"><span class="text-info"> Nghĩa  </span></td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-6"><span class="text-bold">{{ detail_word.name }} :</span></td>
+                                <td class="col-sm-6"><span class="text-bold">{{ detail_word.meaning }}</span></td>
+                            </tr>
+                        </table>
+                        <span style="margin: 0 0 0 15px;" class="text-success">Cách dùng :</span><br>
+                        <span> {{ detail_word.description }} </span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="thumbnail">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="col-sm-1">STT</th>
+                                <th class="col-sm-2">Lesson</th>
+                                <th class="col-sm-2">Date</th>
+                                <th class="col-sm-7">Course</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obj in list_lesson %}
+                                <tr>
+                                    <td class="col-sm-1"><a class=" text-info"
+                                                            href="{% url 'lesson:lesson-detail' obj.id %}">{{ forloop.counter }}</a>
+                                    </td>
+                                    <td class="col-sm-2"><a class=" text-info"
+                                                            href="{% url 'lesson:lesson-detail' obj.id %}">{{ obj.name }}</a>
+                                    </td>
+                                    <td class="col-sm-2"><a class=" text-info"
+                                                            href="{% url 'lesson:lesson-detail' obj.id %}">{{ obj.create_at|date:'d-m-Y' }}</a>
+                                    </td>
+                                    <td class="col-sm-7">{{ obj.course.name|truncatewords:15 }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

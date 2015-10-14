@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -13,7 +14,9 @@ class Language(models.Model):
 class Word(models.Model):
     name = models.TextField()
     meaning = models.TextField()
+    description = models.TextField(default=None)
     language = models.ForeignKey(Language, related_name='word')
+    user = models.ManyToManyField(User, related_name='word')
 
     def __unicode__(self):
         return self.name

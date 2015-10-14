@@ -1,0 +1,49 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}
+    Manage User
+{% endblock %}
+{% block content_header %}
+    <div class="col-lg-5">
+        <span class="text-blue">Manage User</span>
+    </div>
+{% endblock %}
+{% block content %}
+    <div style="margin: 0 0 0 10px;">
+        <legend>
+            <div class="form-group form-inline" role="form">
+        <span>
+            <a href="{% url 'admin:admin-index-manage' %}" role="button" class="btn btn-default"> Manage</a>&nbsp;
+            <a href="{% url 'admin:admin-index-user' %}" role="button" class="btn btn-default"> User</a>
+        </span>
+        <span style="float: right; margin: 0 5px 0 0;">
+            <form class="form-inline" action="
+
+
+                    {% if staff %}{% url 'admin:admin-index-manage' %} {% else %} {% url 'admin:admin-index-user' %} {% endif %}"
+                  method="get">
+                {% csrf_token %}
+                <input class="" type="text" name="search" placeholder="Search" value="">
+                <input type="hidden" name="staff" value="{{ staff }}">
+                <button class="btn btn-danger btn-sm" role="button" type="submit" value="0">Search</button>
+            </form>
+        </span>
+            </div>
+        </legend>
+        <div class="row">
+
+            {% for obj in list_user_profile %}
+                <div class="col-lg-3">
+                    <div class="thumbnail">
+                        Username : <a href="#"> {{ obj.username }}<br></a>
+                        First name : {{ obj.first_name }}<br>
+                        Last name : {{ obj.last_name }}<br>
+                        Email : {{ obj.email }}<br>
+                        Date Join : {{ obj.date_joined|date:"d-m-Y" }}<br>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

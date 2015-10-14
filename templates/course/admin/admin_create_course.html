@@ -21,6 +21,12 @@
                         <span class="help-block">{{ field.errors }}</span>
                     </div>
                 {% endfor %}
+                <label class="text-info">Lựa chọn ngôn ngữ : </label>
+                <select name="lang_id">
+                    {% for obj in list_lang %}
+                        <option value="{{ obj.id }}">{{ obj.name }}</option>
+                    {% endfor %}
+                </select>
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-2">
                         <button type="submit" class="btn btn-primary ">Create</button>

@@ -3,32 +3,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
-    <!--<script rel="stylesheet"  href="{% static 'js/bootstrap.min.js' %}"/></script>-->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+    <!--<script rel="stylesheet"  href="{% static 'bootstrap/js/bootstrap.min.js' %}"/></script>-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="stylesheet" href="{% static 'dist/css/skins/skin-blue.min.css' %}">
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} Trang index {% endblock %}</title>
+    <style>
+        body span{
+            font-family: "Open Sans", Helvetica, Arial, sans -serif;
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-    <header>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="container ">
+    {#    <div class="row">#}
+    <header class="main-header" style="margin-bottom: 5px;">
         <div class="row">
             {% block header %}
                 {% include 'header.html' %}
             {% endblock %}
             <div class="col-sm-12" style="height: 200px; background-color: #204d74">
-
+                dfgfdgfdg
             </div>
         </div>
     </header>
-    <nav>
+
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-top: 5px;">
         <div class="row">
-            {% block nav %}{% endblock %}
+            {% block nav %}
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="col-sm-3" role="presentation">
+                        <a href="{% url 'fels:index' %}"> Home</a>
+                    </li>
+                    <li class="col-sm-3" role="presentation">
+                        <a href="{% url 'lesson:course-index' %}"> Course</a>
+                    </li>
+                    <li class="col-sm-3" role="presentation">
+                        <a href="{% url 'lesson:lesson-index' %}">Lesson</a>
+                    </li>
+                    <li class="col-sm-3" role="presentation">
+                        <a href="{% url 'word:word-index' %}">Word</a>
+                    </li>
+                </ul>
+            {% endblock %}
         </div>
     </nav>
+    {#    <div class="content-wrapper" style="background-color: white;">#}
     <section>
         <div class="row">
             {% block content %}
@@ -41,6 +75,22 @@
             {% include 'footer.html' %}
         </div>
     </footer>
+    {#    </div>#}
 </div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.1.4 -->
+<script src="{% static 'plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src=" {% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/app.min.js' %}"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
 </body>
 </html>

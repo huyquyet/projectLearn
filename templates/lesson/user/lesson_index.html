@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} Course{% endblock %}
+{% block content %}
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <span class="text-success">Danh sách bài học</span>
+            </div>
+            <div class="col-sm-3 col-sm-offset-5">
+                <span>
+                    <form action="" method="get" class="form-inline">
+                        {% csrf_token %}
+                        <input type="text" name="search" value="" placeholder="search">
+                        <button type="submit" class="btn btn-danger btn-sm">Search</button>
+                    </form>
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            {% for obj in page_obj %}
+                <div class="col-sm-3 ">
+                    <div class="thumbnail" style="height: 350px;">
+                        <div style="width: 200px; height: 200px;  " class="center-block">
+                            <a href="{% url 'lesson:lesson-detail'  obj.id %}"><img
+                                    src="../../../static/1300550461383.jpg" alt="200x200"
+                                    class="thumbnail "></a>
+                        </div>
+                        <div class="caption" style="margin: 7px 0 0 0">
+
+                            <p><span class="text-navy text-bold" style="font-size: 13px;">Name  : </span><span> <a
+                                    href="{% url 'lesson:lesson-detail'  obj.id %}">{{ obj.name }}</a></span>
+
+                            <p><span class="text-navy text-bold"
+                                     style="font-size: 13px;">Course : </span><span style="font-size: 12px;"><a
+                                    href="{% url 'lesson:course-detail' obj.course.id %}">{{ obj.course.name }}</a></span>
+                            </p>
+
+                            <p><span class="text-navy text-bold"
+                                     style="font-size: 13px;">Language : </span><span>{{ obj.course.language.name }}</span>
+                            </p>
+
+                            <p><span class="text-navy text-bold" style="font-size: 13px;">Content : </span>
+                                <span style="font-size: 12px;"> {{ obj.content|truncatewords:20 }} </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-3 col-sm-offset-5">
+        <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a role="button" class="btn btn-default" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a role="button" class="btn btn-default" href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}

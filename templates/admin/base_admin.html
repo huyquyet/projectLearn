@@ -247,11 +247,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="active"><a href="{% url 'admin:admin-index-word' %}"><i class="fa fa-link"></i>
                     <span>Word</span></a></li>
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>User</span> <i
+                    <a href="{% url 'admin:admin-index-list-user' %}"><i class="fa fa-link"></i> <span>User</span> <i
                             class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <li><a href="#">User</a></li>
-                        <li><a href="#">Manager</a></li>
+                        <li><a href="{% url 'admin:admin-index-user' %}">User</a></li>
+                        <li><a href="{% url 'admin:admin-index-manage' %}">Manager</a></li>
                     </ul>
                 </li>
             </ul>

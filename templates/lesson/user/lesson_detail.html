@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}
+    Detail Lesson
+{% endblock %}
+{% block content_header %}
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-lg-12">
+            <legend>
+                <span class="text-blue">Detail Lesson</span>
+            </legend>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="thumbnail">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="thumbnail">
+                            <legend>
+                                <span class="text-aqua "> Name</span>
+                                <span style="float: right; margin: 0 15px  0">
+                                    {% if join %}
+                                        <button type="button" class="btn btn-xs btn-success disabled"> Learning
+                                        </button>
+                                    {% else %}
+                                        <form action="{% url 'lesson:lesson-user-join' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id_lesson" value="{{ detail_lesson.id }}">
+                                            <input type="hidden" name="id_user" value="{{ user.id }}">
+                                            <button type="submit" class="btn btn-xs btn-danger"
+                                                    onclick="return confirm(' Are you want join Lesson {{ detail_lesson.name }}')">
+                                                Join
+                                            </button>
+                                        </form>
+                                    {% endif %}
+
+                                </span>
+
+                            </legend>
+                            <span>{{ detail_lesson.name }}</span>
+                        </div>
+                        <div class="thumbnail">
+                            <legend><span class="text-aqua "> Language</span></legend>
+                            <span>{{ detail_lesson.course.language.name }}</span>
+                        </div>
+                        <div class="thumbnail">
+                            <legend><span class="text-aqua "> Course</span></legend>
+                            <span>{{ course }}</span>
+                        </div>
+                        <div class="thumbnail">
+                            <legend>
+                                <span class="text-aqua "> Content</span>
+                            </legend>
+                            <span>{{ detail_lesson.content|truncatewords:100 }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="thumbnail">
+                            <legend>
+                                Word of Lesson
+                                <span>
+                                {% if join %}
+                                    <a href="{% url 'exam:exam-lesson' detail_lesson.id%}" role="button"
+                                       class="btn btn-success btn-xs" style=" float: right; margin: 0 25px 0 0"
+                                       onclick="return confirm('Do you want Exam Lesson')">Exam</a>
+                                {% else %}
+                                    <button class="btn btn-danger btn-xs disabled"
+                                            style="float: right; margin: 0 25px 0 0">Exam
+                                    </button>
+                                {% endif %}
+                                </span>
+                            </legend>
+                            <div class="row">
+                                {#                    <div class="col-sm-1"></div>#}
+                                {% for obj  in words %}
+                                    <div class="col-sm-6">
+                                        <div class="thumbnail">
+                                            <span style="margin: 0 0 0 15px;">STT : </span>{{ forloop.counter }}<br>
+                                            <table style="margin: 0 0 7px 0">
+                                                <tr>
+                                                    <td class="col-sm-6"><span class="text-info"> Từ </span></td>
+                                                    <td class="col-sm-6"><span class="text-info"> Nghĩa  </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-6"><span class="text-bold">{{ obj.name }} :</span>
+                                                    </td>
+                                                    <td class="col-sm-6"><span
+                                                            class="text-bold">{{ obj.meaning }}</span></td>
+                                                </tr>
+                                            </table>
+                                <span style="margin: 0 0 0 15px;"
+                                      class="text-success">Cách dùng :</span><span> {{ obj.description|truncatewords:20 }}</span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <style>
+                            div.scroll {
+                                height: 250px;
+                                overflow: scroll;
+                            }
+                        </style>
+                        <div class="thumbnail ">
+                            <legend>
+                                User of lesson
+                            </legend>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="col-sm-1">STT</td>
+                                    <td class="col-sm-6">Name</td>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="scroll">
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                    {% for obj in users %}
+                                        <tr>
+                                            <td class="col-sm-1">{{ forloop.counter }}</td>
+                                            <td class="col-sm-6">{{ obj.first_name }} {{ obj.last_name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+
+        </div>
+    </div>
+{% endblock %}

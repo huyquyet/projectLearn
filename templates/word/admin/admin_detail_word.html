@@ -96,25 +96,26 @@
                 <legend>
                     Lesson
                 </legend>
-                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
-
-                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
-                </p>
-
-                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
-
-                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
-                </p>
-
-                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
-
-                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
-                </p>
-
-                <p><label class="text-info">Word : </label><label class="text-blue">{{ detail_word.name }}</label></p>
-
-                <p><label class="text-info">Meaning : </label><label class="text-blue">{{ detail_word.meaning }}</label>
-                </p>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <td class="col-lg-1">STT</td>
+                        <td class="col-lg-4">Lesson</td>
+                        <td class="col-lg-5">Content</td>
+                        <td class="col-lg-2">Status</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in lessons %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.content|truncatewords:7 }}</td>
+                            <td>{% if obj.status %}<span class="text-success">Enable</span>{% else %}<span class="text-red">Disabled</span> {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

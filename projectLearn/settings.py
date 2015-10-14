@@ -82,10 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'projectLearn',
-	'USER':'root',
-	'PASSWORD':'hoada921',
-	'HOST':'127.0.0.1',
-	'PORT':'3306',
+        'USER': 'root',
+        'PASSWORD': 'hoada921',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -112,5 +112,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 LOGIN_URL = '/fels/login'
 
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

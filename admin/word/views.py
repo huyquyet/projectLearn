@@ -116,6 +116,7 @@ class AdminDetailWordView(DetailView):
             ctx['num'] = num
         else:
             ctx['num'] = []
+        ctx['lessons'] = self.object.lesson.all()
         return ctx
 
 
