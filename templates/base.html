@@ -17,12 +17,16 @@
     -->
     <link rel="stylesheet" href="{% static 'dist/css/skins/skin-blue.min.css' %}">
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>#}
+    {#    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>#}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} Trang index {% endblock %}</title>
     <style>
+        body {
+            background-blend-mode: screen;
+            background-color: #EAEAEA;
+        }
         body span{
             font-family: "Open Sans", Helvetica, Arial, sans -serif;
         }
@@ -47,23 +51,23 @@
             {% block nav %}
                 <ul class="nav nav-tabs nav-justified">
                     <li class="col-sm-3" role="presentation">
-                        <a href="{% url 'fels:index' %}"> Home</a>
+                        <a href="{% url 'fels:index' %}"> <span class="text-bold">Home</span></a>
                     </li>
                     <li class="col-sm-3" role="presentation">
-                        <a href="{% url 'lesson:course-index' %}"> Course</a>
+                        <a href="{% url 'lesson:course-index' %}"> <span class="text-bold">Course</span></a>
                     </li>
                     <li class="col-sm-3" role="presentation">
-                        <a href="{% url 'lesson:lesson-index' %}">Lesson</a>
+                        <a href="{% url 'lesson:lesson-index' %}"><span class="text-bold">Lesson</span></a>
                     </li>
                     <li class="col-sm-3" role="presentation">
-                        <a href="{% url 'word:word-index' %}">Word</a>
+                        <a href="{% url 'word:word-index' %}"><span class="text-bold"> Word</span></a>
                     </li>
                 </ul>
             {% endblock %}
         </div>
     </nav>
     {#    <div class="content-wrapper" style="background-color: white;">#}
-    <section>
+    <section style="min-height: 600px">
         <div class="row">
             {% block content %}
 
@@ -88,9 +92,5 @@
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/app.min.js' %}"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 </body>
 </html>

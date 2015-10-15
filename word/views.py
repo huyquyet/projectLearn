@@ -46,3 +46,16 @@ class UserDetailWordView(DetailView):
         ctx = super(UserDetailWordView, self).get_context_data(**kwargs)
         ctx['list_lesson'] = self.object.lesson.all()
         return ctx
+
+
+class UserWordMemoryView(ListView):
+    # model = Word
+    template_name = 'word/user/word_list_memory.html'
+    paginate_by = 12
+
+    def get_queryset(self):
+        search = self.request.GET.get('search', '')
+        if search == '':
+            return Word.objects.filter(user=self.request.user)
+        else:
+            return Word.objects.filter(user=self.request.user, name__icontains=search)

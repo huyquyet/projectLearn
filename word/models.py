@@ -26,3 +26,4 @@ class Question(models.Model):
     word = models.ForeignKey(Word, related_name='question')
     answer = models.TextField()
     check = models.BooleanField(help_text='Answer True or False')
+

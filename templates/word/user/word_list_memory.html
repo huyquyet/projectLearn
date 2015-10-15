@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %} List Word{% endblock %}
+{% block content %}
+    <div class="col-sm-12" style="margin: 0 0 5px 0">
+        <div class="row">
+            <div class="col-sm-9">
+{#                <div style="padding: 2px 0 0 0">#}
+{#                    <a href="{% url 'word:word-index' %}" role="button"#}
+{#                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">All word</a>#}
+{#                    <a href="{% url 'word:word-language' 1 %}" role="button"#}
+{#                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">English</a>#}
+{#                    <a href="{% url 'word:word-language' 2 %}" role="button"#}
+{#                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Japanese</a>#}
+{#                    <a href="{% url 'word:word-language' 3 %}" role="button"#}
+{#                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">Chinese</a>#}
+{#                    <a href="{% url 'word:word-language' 4 %}" role="button"#}
+{#                       class="btn btn-info btn-sm" style="float: left; margin-left: 25px;">French</a>#}
+{#                </div>#}
+            </div>
+            <div class="col-sm-3">
+                <span>
+                    <form action="" method="get" class="form-inline">
+                        {% csrf_token %}
+                        <input type="text" name="search" value="" placeholder="search">
+                        <button type="submit" class="btn btn-danger btn-sm">Search</button>
+                    </form>
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="thumbnail">
+            <legend>
+                List Word Memory
+            </legend>
+            <div class="row">
+                {#                    <div class="col-sm-1"></div>#}
+                {% for obj  in page_obj %}
+                    <div class="col-sm-4">
+                        <div class="thumbnail">
+                            <span style="margin: 0 0 0 15px;">STT : </span>{{ forloop.counter }}<br>
+                            <table style="margin: 0 0 7px 0">
+                                <tr>
+                                    <td class="col-sm-6"><span class="text-info"> Từ </span></td>
+                                    <td class="col-sm-6"><span class="text-info"> Nghĩa  </span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6"><span class="text-bold">{{ obj.name }} :</span></td>
+                                    <td class="col-sm-6"><span class="text-bold">{{ obj.meaning }}</span></td>
+                                </tr>
+                            </table>
+                                <span style="margin: 0 0 0 15px;"
+                                      class="text-success">Cách dùng :</span><span> {{ obj.description|truncatewords:15 }} <a
+                                href="{% url 'word:word-detail' obj.id %}" class="text-info">chi tiết</a></span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 col-sm-offset-5">
+        <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a role="button" class="btn btn-default" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a role="button" class="btn btn-default" href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}
