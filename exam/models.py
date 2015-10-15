@@ -9,6 +9,7 @@ from word.models import Question
 class Exam(models.Model):
     lesson_user = models.ForeignKey(LessonUser, related_name='exam')
     date = models.DateTimeField(default=timezone.now)
+    point = models.IntegerField(default=0)
 
 
 class Answer(models.Model):

@@ -1,4 +1,5 @@
 from django import forms
+
 from exam.models import Answer
 
 from word.models import Word, Question
@@ -37,7 +38,7 @@ class WordForm(forms.ModelForm):
 
 
 class AnswerForm(forms.ModelForm):
-    question = forms.ModelChoiceField(queryset=Question.objects.all(), widget=forms.RadioSelect(attrs={'class': 'Radio'}))
+    question = forms.ModelChoiceField(queryset=None, widget=forms.RadioSelect(attrs={'class': 'Radio'}))
 
     class Meta:
         model = Answer
@@ -48,4 +49,4 @@ class AnswerForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         queryset = kwargs.get('queryset', None)
         if queryset is not None:
-            self.question.queryset = kwargs.pop('questions', )
+            self.question.queryset = kwargs.pop('questions',)

@@ -2,18 +2,27 @@
 {% block title %} Course{% endblock %}
 {% block content %}
     <div class="row">
-        hien thi form
+        Exam for Lesson
         <form action="" method="POST">
             {% csrf_token %}
             {{ form.management_form }}
-            {#            <table>#}
             {% for frm in form %}
-                <p>Word: {{ frm.word.id }} -> {{ frm.word.name }}</p>
-{#                {% for q in frm.fields['question'].queryset %}#}
-{#                {% endfor %}#}
-                {{ frm.as_ul }}
+{#                {% count = forloop.counter0 %}#}
+                <li><label for="id_form-{{ forloop.counter0 }}-question_0"> Câu {{ forloop.counter }} : Word -> {{ frm.word.name }}</label></li>
+                <ul id="id_form-{{ forloop.counter0 }}-question">
+                    {% for i in frm.fields.question.queryset %}
+                        <li>
+                            <label for="id_form-{{ forloop.parentloop.counter0 }}-question_{{ forloop.counter }}">
+                                <input class="Radio"
+                                       id="id_form-{{ forloop.parentloop.counter0 }}-question_{{ forloop.counter }}"
+                                       name="form-{{ forloop.parentloop.counter0 }}-question" type="radio" value="{{ i.pk }}"/>
+                                {{ i.answer }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {#                {{ frm.as_ul }}#}
             {% endfor %}
-            {#            </table>#}
             <input type="submit" value="Submit"/>
         </form>
     </div>
