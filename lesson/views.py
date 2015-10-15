@@ -31,7 +31,7 @@ class UserCourseIndexView(ListView):
     def get_queryset(self):
         search = self.request.GET.get('search', '')
         if search == '':
-            return Course.objects.all()
+            return Course.objects.filter()
         else:
             return Course.objects.filter(name__contains=search)
 
@@ -56,15 +56,18 @@ class UserLessonIndexView(ListView):
     def get_queryset(self):
         search = self.request.GET.get('search', '')
         if search == '':
-            return Lesson.objects.all()
+            return Lesson.objects.filter(status=True)
         else:
-            return Lesson.objects.filter(name__contains=search)
+            return Lesson.objects.filter(status=True, name__contains=search)
 
 
 class UserLessonDetailView(DetailView):
     model = Lesson
     template_name = 'lesson/user/lesson_detail.html'
     context_object_name = 'detail_lesson'
+
+    def get_queryset(self):
+        return Lesson.objects.filter(status=True)
 
     def get_context_data(self, **kwargs):
         ctx = super(UserLessonDetailView, self).get_context_data(**kwargs)

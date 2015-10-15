@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.decorators import method_decorator
@@ -46,7 +47,24 @@ class AdminEditLessonView(UpdateView):
         return super(AdminEditLessonView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('admin:admin-list-lesson')
+        return reverse('admin:admin-detail-lesson', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        ctx = super(AdminEditLessonView, self).get_context_data(**kwargs)
+        ctx['status'] = self.object.status
+        return ctx
+
+    def form_valid(self, form):
+        status = self.request.POST.get('status', '')
+        if status != '':
+            if status:
+                count = self.object.word.all().count()
+                if count == 10:
+                    form.instance.status = True
+                form.save()
+        else:
+            form.save()
+        return super(AdminEditLessonView, self).form_valid(form)
 
 
 class AdminDetailLessonView(DetailView):
@@ -87,7 +105,9 @@ class AdminAddWordLessonView(DetailView):
         words = self.object.word.all()
         # id language of lesson
         lang_lesson = self.object.course.language.id
-        list_word_not_in_lesson = Word.objects.filter(language__id=lang_lesson).exclude(id__in=words)
+        list_word_not_in_lesson = Word.objects.annotate(num_question=Count('question')).filter(
+            language__id=lang_lesson, num_question=3).exclude(
+            id__in=words)
         ctx['list_word'] = words
         ctx['count_word'] = words.count()
         ctx['list_word_not_in_lesson'] = list_word_not_in_lesson

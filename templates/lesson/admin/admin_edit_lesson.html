@@ -20,11 +20,19 @@
                         <span class="help-block">{{ field.errors }}</span>
                     </div>
                 {% endfor %}
+                <span class="text-bold"> Status :</span>
+                {% if status %}
+                    <span class="text-bold text-info">Enable<input type="radio" name="" value="" checked> </span>
+                    <span class="text-bold text-info">Disabled<input type="radio" name="" value="" disabled="disabled"></span>
+                {% else %}
+                    <span class="text-bold text-info">Enable<input type="radio" name="status" value="True" > &nbsp;&nbsp;&nbsp;
+                    <span class="text-bold text-info">Disabled<input type="radio" name="status" value="False" checked>
+                {% endif %}
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-2">
                         <button type="submit" class="btn btn-primary ">Edit</button>
                         <button type="reset" class="btn btn-primary ">Reset</button>
-                        <a href="{% url 'admin:admin-list-lesson' %}" role="button" class="btn btn-primary ">Cancel</a>
+                        <a href="{% url 'admin:admin-detail-lesson' object.id%}" role="button" class="btn btn-primary ">Cancel</a>
                     </div>
                 </div>
             </form>
