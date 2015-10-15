@@ -6,7 +6,7 @@ from django.forms import formset_factory
 
 # Create your views here.
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from exam.forms import AnswerForms, AnswerForm
 from exam.models import Exam
@@ -42,6 +42,7 @@ def UserLessonExamView_1(request):
 class UserLessonExamView(SingleObjectMixin, FormView):
     model = Lesson
     template_name = 'exam/user/exam_lesson.html'
+    id_exam = 0
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -49,27 +50,52 @@ class UserLessonExamView(SingleObjectMixin, FormView):
         self.form_class = formset_factory(AnswerForm, extra=extra)
         return super(UserLessonExamView, self).dispatch(request, *args, **kwargs)
 
-    def get_form_kwargs(self):
-        kwargs = super(UserLessonExamView, self).get_form_kwargs()
-        return kwargs
+    # def get_form_kwargs(self):
+    #     kwargs = super(UserLessonExamView, self).get_form_kwargs()
+    #     return kwargs
 
     def get_form(self, form_class=None):
         formset = super(UserLessonExamView, self).get_form(form_class)
         words = self.object.word.all()
         for (form, word) in list(zip(formset, words)):
             form.word = word
-            form.fields['question'].queryset = word.question.all().
+            form.fields['question'].queryset = word.question.all()
         return formset
 
     def form_valid(self, form):
+        formset = form
         lession_user = get_object_or_404(LessonUser, user=self.request.user, lesson=self.object)
         exam = Exam.objects.create(lesson_user=lession_user)
         exam.save()
-        for frm in form:
-            answer = frm.save(commit=False)
+        self.id_exam = exam.pk
+        count = 0
+        for form in formset:
+            answer = form.save(commit=False)
             answer.exam = exam
+            question = form.cleaned_data['question']
+            if question.check:
+                count += 1
             answer.save()
-        return super(UserLessonExamView, self).form_valid(form)
+        exam.point = count
+        exam.save()
+        return super(UserLessonExamView, self).form_valid(formset)
 
     def get_success_url(self):
-        return reverse_lazy('lesson:lesson-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('exam:exam-history-detail', kwargs={'pk': self.id_exam})
+
+
+class UserHistoryExamView(DetailView):
+    model = Exam
+    template_name = 'exam/user/exam_history_detail.html'
+    context_object_name = 'exam_detail'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UserHistoryExamView, self).get_context_data(**kwargs)
+        ctx['users'] = self.object.lesson_user.user
+        answer = self.object.answer.all()
+        ctx['answer'] = answer
+        ctx['id_question'] = [i.question.id for i in answer]
+        words = [i.question.word for i in answer]
+        ctx['words'] = words
+        # questions =
+        return ctx

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Course{% endblock %}
+{% block content %}
+    <div class="row">
+        Exam History<br>
+        Full name : {{ users.first_name }} {{ users.last_name }}<br>
+        Exam number : {{ exam_detail.id }}<br>
+        Date : {{ exam_detail.date| date:'d-m-Y' }}<br>
+        Pass : {{ exam_detail.point }}/10<br>
+
+        {% for i in words %}
+            <div class="col-sm-6" style="margin: 5px 0 5px 0">
+                <div class="thumbnail">
+                    <label>{{ i.id }} : {{ i.name }}<br></label>
+                    {% for j in i.question.all %}
+                        <li style="list-style: none">
+                            <input type="radio" {% if j.id in id_question %}
+                                   checked {% else %} disabled="disabled" {% endif %}
+                                   name="{{ i.pk }}" value="{{ forloop.counter }}">
+                            {% if j.id in id_question %}
+                                {% if j.check %}
+                                    <span class="text-success">{{ j.answer }}</span>
+                                {% else %}
+                                    <span class="text-danger">{{ j.answer }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>{{ j.answer }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
