@@ -41,7 +41,8 @@
                         <th class="col-lg-1">ID</th>
                         <th class="col-lg-3">Name</th>
                         <th class="col-lg-4">Content</th>
-                        <th class="col-lg-2">Date</th>
+                        <th class="col-lg-1">Date</th>
+                        <th class="col-lg-1">Status</th>
                         <th class="col-lg-1">
                             <a href="{% url 'admin:admin-create-lesson' %}" role="button"
                                class="btn btn-danger btn-sm">Create New</a>
@@ -57,22 +58,34 @@
                             <td class="col-lg-3"><a class=" text-info"
                                                     href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.name }}</a>
                             </td>
-                            <td class="col-lg-4"><a class=" text-info"
+                            <td class="col-lg-3"><a class=" text-info"
                                                     href="{% url 'admin:admin-detail-lesson' obj.id %}">{{ obj.content|truncatewords:10 }}</a>
                             </td>
-                            <td class="col-lg-2">{{ obj.create_at }}</td>
+                            <td class="col-lg-1">{{ obj.create_at|date:'d-m-Y' }}</td>
+                            <td class="col-lg-1">
+                                {% if obj.status %}
+                                    <span class="text-success">Enable</span>
+                                {% else %}
+                                    <span class="text-danger">Disabled</span>
+                                {% endif %}
+                            </td>
                             <td class="col-lg-1">
                                 <a href="{% url 'admin:admin-edit-lesson' obj.id %}"
                                    class="btn btn-success btn-xs no-margin" role="button">Edit</a>
-
-                                <form action="{% url 'admin:admin-delete-lesson' %}" method="post"
+                                {% if obj.status %}
+                                    <button class="btn btn-danger btn-xs" disabled>Delete</button>
+                                {% else %}
+                                    <form action="{% url 'admin:admin-delete-lesson' %}" method="post"
                                       style="float: right;">
                                     {% csrf_token %}
-                                    <input type="hidden" name="id_course" value="{{ obj.id }}">
+                                    <input type="hidden" name="id_lesson" value="{{ obj.id }}">
+                                    <input type="hidden" name="id_course" value="{{ detail_course.id }}">
                                     <button type="submit" class="btn btn-danger btn-xs"
                                             onclick="return confirm('Are you sure you want remover user ?')">Delete
                                     </button>
-                                </form>
+                                    </form>
+                                {% endif %}
+
                             </td>
 
                         </tr>

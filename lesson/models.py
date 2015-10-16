@@ -32,3 +32,4 @@ class Lesson(models.Model):
 class LessonUser(models.Model):
     user = models.ForeignKey(User, related_name='lesson_user')
     lesson = models.ForeignKey(Lesson, related_name='lesson_user')
+    status = models.BooleanField(default=True)

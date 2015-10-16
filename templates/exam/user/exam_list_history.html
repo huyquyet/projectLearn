@@ -15,12 +15,12 @@
                             <div class="thumbnail">
                                 <p><span
                                         class="text-info text-bold"> Name lesson :</span><span> <a
-                                        href="{% url 'lesson:lesson-detail' obj.lesson_user.lesson.id %}">{{ obj.lesson_user.lesson.name }}</a></span>
+                                        href="{% url 'lesson:lesson-detail' obj.lesson_id %}">{{ obj.lesson_name }}</a></span>
                                 </p>
 
                                 <p><span
                                         class="text-info text-bold"> Name course :</span><span> <a
-                                        href="{% url 'lesson:lesson-detail' obj.lesson_user.lesson.course.id %}">{{ obj.lesson_user.lesson.course.name }}</a></span>
+                                        href="{% url 'lesson:lesson-detail' obj.course_id %}">{{ obj.course_name }}</a></span>
                                 </p>
 
                                 <p><span
@@ -30,16 +30,16 @@
                                 <p>
                                     <span class="text-info text-bold"> Point :</span>
                                     {% if obj.point <= 4 %}
-                                        <span class="text-danger">{{ obj.point }}</span>
+                                        <span class="text-danger">{{ obj.point }}/10</span>
                                     {% elif obj.point > 4 and  obj.point <= 8 %}
-                                        <span class="text-info">{{ obj.point }}</span>
+                                        <span class="text-info">{{ obj.point }}/10</span>
                                     {% else %}
-                                        <span class="text-success">{{ obj.point }}</span>
+                                        <span class="text-success">{{ obj.point }}/10</span>
                                     {% endif %}
                                 </p>
 
                                 <p><span
-                                        class="text-info text-bold">User : </span><span>{{ obj.lesson_user.user.first_name }} {{ obj.lesson_user.user.last_name }}</span>
+                                        class="text-info text-bold">User : </span><span>{{ obj.user_first_name }} {{ obj.user_last_name }}</span>
                                 </p>
 
                                 <p><span><a href="{% url 'exam:exam-history-detail' obj.pk %}"> Chi tiết...</a></span>

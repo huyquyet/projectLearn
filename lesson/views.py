@@ -43,7 +43,13 @@ class UserCourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(UserCourseDetailView, self).get_context_data(**kwargs)
-        ctx['list_lesson'] = self.object.lesson.all()
+        list_lesson = self.object.lesson.filter(status=True)
+        for i in list_lesson:
+            if LessonUser.objects.filter(lesson=i, user=self.request.user).exists():
+                i.status = True
+            else:
+                i.status = False
+        ctx['list_lesson'] = list_lesson
         return ctx
 
 
@@ -73,10 +79,15 @@ class UserLessonDetailView(DetailView):
         ctx = super(UserLessonDetailView, self).get_context_data(**kwargs)
         ctx['words'] = self.object.word.all()
         ctx['course'] = self.object.course.name
-        ctx['join'] = LessonUser.objects.filter(lesson=self.object, user=self.request.user).exists()
         users = LessonUser.objects.filter(lesson=self.object)
-        # .values_list('user', flat=True)
         ctx['users'] = [User.objects.get(id=i.user.id) for i in users]
+        if LessonUser.objects.filter(lesson=self.object, user=self.request.user).exists():
+            if LessonUser.objects.get(lesson=self.object, user=self.request.user).status:
+                ctx['join'] = True
+            else:
+                ctx['join'] = False
+        else:
+            ctx['join'] = False
         return ctx
 
 
@@ -89,6 +100,7 @@ def user_lesson_join(request):
         lesson = get_object_or_404(Lesson, id=id_lesson)
         user = get_object_or_404(User, id=id_user)
         lesson_user, create = LessonUser.objects.get_or_create(user=user, lesson=lesson)
+        lesson_user.status = True
         lesson_user.save()
         return HttpResponseRedirect(reverse('lesson:lesson-detail', kwargs={'pk': id_lesson}))
 

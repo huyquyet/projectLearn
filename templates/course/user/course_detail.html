@@ -50,9 +50,15 @@
                             <td class="col-lg-4"><a class=" text-info"
                                                     href="{% url 'lesson:lesson-detail' obj.id %}">{{ obj.content|truncatewords:10 }}</a>
                             </td>
-                            <td class="col-lg-2">{{ obj.create_at }}</td>
+                            <td class="col-lg-2">{{ obj.create_at|date:'d-m-Y' }}</td>
                             <td class="col-lg-1">
-                                <button class="btn btn-success btn-xs no-margin disabled" role="button">Learning</button>
+                                {% if obj.status %}
+                                    <button class="btn btn-success btn-xs no-margin disabled" role="button">Learning
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-success btn-xs no-margin " role="button">Join
+                                    </button>
+                                {% endif %}
                             </td>
 
                         </tr>

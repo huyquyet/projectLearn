@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Count
 from django.http import HttpResponseRedirect
@@ -6,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from lesson.models import Lesson, Course
+from lesson.models import Lesson, Course, LessonUser
 from word.models import Word
 
 __author__ = 'FRAMGIA\nguyen.huy.quyet'
@@ -88,7 +89,25 @@ class AdminDetailLessonView(DetailView):
             ctx['num'] = True
 
         ctx['words'] = word
+        ctx['users'] = self.object.user.all()
         return ctx
+
+
+@requirement_admin
+def admin_delete_lesson(request):
+    id_lesson = request.POST.get('id_lesson', '')
+    id_course = request.POST.get('id_course', '')
+    if id_lesson == '':
+        return render(request, 'lesson/admin/admin-delete-error.html',
+                      {'error': 'Loi xoa Lesson', 'id_course': id_course})
+    else:
+        lesson = get_object_or_404(Lesson, id=id_lesson)
+        if lesson.status:
+            return render(request, 'lesson/admin/admin-delete-error.html',
+                          {'error': 'Loi xoa Lesson', 'id_course': id_course})
+        else:
+            lesson.delete()
+            return HttpResponseRedirect(reverse_lazy('admin:admin-detail-course', kwargs={'pk': id_course}))
 
 
 class AdminAddWordLessonView(DetailView):
@@ -141,3 +160,13 @@ def remover_word_lesson(request):
     lesson.word.remove(Word.objects.get(id=id_word))
     lesson.save()
     return HttpResponseRedirect(reverse('admin:admin-add-word-lesson', kwargs={'pk': id_lesson}))
+
+
+@requirement_admin
+def admin_re_user_lesson(request):
+    id_user = request.POST.get('id_user', '')
+    id_lesson = request.POST.get('id_lesson', '')
+    lesson_user = LessonUser.objects.get(user=User.objects.get(id=id_user), lesson=Lesson.objects.get(id=id_lesson))
+    lesson_user.status = False
+    lesson_user.save()
+    return HttpResponseRedirect(reverse_lazy('admin:admin-detail-lesson', kwargs={'pk': id_lesson}))

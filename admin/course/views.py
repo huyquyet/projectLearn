@@ -97,6 +97,7 @@ class AdminEditCourseView(UpdateView):
         form.save()
         return super(AdminEditCourseView, self).form_valid(form)
 
+
 class AdminDetailCourseView(DetailView):
     model = Course
     template_name = 'course/admin/admin_detail_course.html'

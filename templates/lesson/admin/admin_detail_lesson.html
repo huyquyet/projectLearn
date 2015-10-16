@@ -108,18 +108,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for obj in words %}
+                    {% for obj in users %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ obj.name }}</td>
-                            <td>{{ obj.meaning }}</td>
+                            <td>{{ obj.username }}</td>
+                            <td>{{ obj.first_name }} {{ obj.last_name }}</td>
                             <td>
-                                <form action="" method="post" style="float: right; margin: 0 15px 0 0">
+                                <form action="{% url 'admin:admin-re-user-lesson' %}" method="post" style="float: right; margin: 0 15px 0 0">
                                     {% csrf_token %}
-                                    <input type="hidden" value="{{ detail_word.id }}" name="id_word">
-                                    <input type="hidden" value="{{ obj.id }}" name="id_lesson">
+                                    <input type="hidden" value="{{ detail_lesson.id }}" name="id_lesson">
+                                    <input type="hidden" value="{{ obj.id }}" name="id_user">
                                     <button type="submit" class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Are you sure you want delete question ?')">Remover
+                                            onclick="return confirm('Are you sure you want remover {{ obj.first_name }} {{ obj.last_name }} ?')">
+                                        Remover
                                     </button>
                                 </form>
                             </td>

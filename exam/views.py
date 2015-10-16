@@ -67,7 +67,6 @@ class UserLessonExamView(SingleObjectMixin, FormView):
 
     def get_context_data(self, **kwargs):
         ctx = super(UserLessonExamView, self).get_context_data(**kwargs)
-
         return ctx
 
     def get_success_url(self):
@@ -77,12 +76,23 @@ class UserLessonExamView(SingleObjectMixin, FormView):
 class UserListHistoryExamView(ListView):
     model = Exam
     template_name = 'exam/user/exam_list_history.html'
-    context_object_name = 'list_exam'
+    # context_object_name = 'list_exam'
 
-    def get_queryset(self):
-        return Exam.objects.filter(lesson_user__user=self.request.user).select_related('lesson_user')
-        # return super(UserListHistoryExamView, self).get_queryset()
+    # def get_queryset(self):
+    #     return Exam.objects.filter(lesson_user__user=self.request.user).select_related('lesson_user')
 
+    def get_context_data(self, **kwargs):
+        ctx = super(UserListHistoryExamView, self).get_context_data(**kwargs)
+        list_exam = Exam.objects.filter(lesson_user__user=self.request.user)
+        for i in list_exam:
+            i.lesson_id = i.lesson_user.lesson.id
+            i.lesson_name = i.lesson_user.lesson.name
+            i.course_id = i.lesson_user.lesson.course.id
+            i.course_name = i.lesson_user.lesson.course.name
+            i.user_first_name = i.lesson_user.user.first_name
+            i.user_last_name = i.lesson_user.user.last_name
+        ctx['list_exam'] = list_exam
+        return ctx
 
 class UserHistoryExamView(DetailView):
     model = Exam

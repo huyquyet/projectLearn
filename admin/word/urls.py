@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^create/$', views.AdminCreateWordView.as_view(), name='admin-create-word'),
     url(r'^edit/(?P<pk>[0-9]+)/$', views.AdminEditWordView.as_view(), name='admin-edit-word'),
     url(r'^detail/(?P<pk>[0-9]+)/$', views.AdminDetailWordView.as_view(), name='admin-detail-word'),
+    url(r'^delete/$', views.admin_delete_word, name='admin-delete-word'),
 
     ################################
     ## Question

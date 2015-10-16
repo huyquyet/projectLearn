@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -54,7 +54,7 @@ class AdminCreateWordView(CreateView):
     model = Word
     template_name = 'word/admin/admin_create_word.html'
     # context_object_name = ''
-    fields = ['name', 'meaning']
+    fields = ['name', 'meaning', 'description']
     # form_class = CreateWordViewForm
 
     @method_decorator(requirement_admin)
@@ -82,7 +82,7 @@ class AdminEditWordView(UpdateView):
     model = Word
     template_name = 'word/admin/admin_edit_word.html'
     context_object_name = ''
-    fields = ['name', 'meaning']
+    fields = ['name', 'meaning','description']
     # form_class = CreateWordViewForm
 
     @method_decorator(requirement_admin)
@@ -118,6 +118,20 @@ class AdminDetailWordView(DetailView):
             ctx['num'] = []
         ctx['lessons'] = self.object.lesson.all()
         return ctx
+
+
+@requirement_admin
+def admin_delete_word(request):
+    id_word = request.POST.get('id_word')
+    word = get_object_or_404(Word, id=id_word)
+    if word.lesson.all().count():
+        return render(request, 'word/admin/admin_word_delete_error.html',
+                      {'error': 'Word đã dc thêm vào trong lesson nên ko thể xóa', 'id_word': id_word})
+    else:
+        # question = word.question.all().values_list('id', flat=True)
+        Question.objects.filter(word=word).delete()
+        word.delete()
+        return HttpResponseRedirect(reverse_lazy('admin:admin-index-word'))
 
 
 class AdminCreateQuestionWordView(CreateView):
