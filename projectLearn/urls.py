@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^word/', include('word.urls', namespace='word')),
     url(r'^lesson/', include('lesson.urls', namespace='lesson')),
     url(r'^exam/', include('exam.urls', namespace='exam')),
+    url(r'^accounts/', include('allauth.urls')),
 ]

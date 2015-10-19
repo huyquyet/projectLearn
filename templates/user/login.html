@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
 {% block header %}{% endblock %}
 {% block content %}
     <div class="login-box">
         <div class="login-logo">
-            <a href="/admin/login"><b>Book Review System</b></a>
+            <a href="#"><b>Book Review System</b></a>
         </div>
         <div class="login-box-body">
             <p class="login-box-msg">Login And Manager</p>
             <div class="row">
-                <div class="col-xs-4 col-xs-offset-4">
+                <div class="col-xs-6 col-xs-offset-2">
                     <form action="{% url 'fels:login' %}" method="post" role="form" class="form-inline">
                         {% csrf_token %}
                         {% for field in form %}
@@ -22,12 +24,19 @@
                             </div>
                         {% endfor %}
                         <p><input type="hidden" name="next" value="{{ request.GET.next|default:'' }}"></p>
-
                         <button type="submit" class="btn btn-primary ">Sign In</button>
-                        <a  href="{% url 'fels:register' %}" type="button" class="btn btn-primary ">Register</a>
+                        <a href="{% url 'fels:register' %}" type="button" class="btn btn-primary " style="float: right">Register</a>
+                        <a href="{% provider_login_url "facebook" method="js_sdk" %}" role="button"
+                           class="btn btn-info">Facebook Connect</a>
                     </form>
+                    <br>
+
+                    <div class="col-sm-6">
+
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 {% endblock %}

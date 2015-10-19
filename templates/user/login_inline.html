@@ -1,3 +1,5 @@
+{% load socialaccount %}
+{% providers_media_js %}
 <form action="{% url 'fels:login' %}" method="post" role="form" class="form-inline" style="float: right">
     {% csrf_token %}
     <div class="form-group">
@@ -10,6 +12,7 @@
     </div>
     <div class="btn-group">
         <button type="submit" class="btn btn-success"> Singin</button>
+        <a href="{% provider_login_url "facebook" method="js_sdk" %}" role="button" class="btn btn-info">Facebook Connect</a>
         <a role="button" href="{% url 'fels:register' %}" class="btn btn-info">Register</a>
 
     </div>

@@ -15,10 +15,8 @@ from lesson.models import Course
 
 
 
-class IndexView(ListView):
-    model = Course
-    template_name = 'index.html'
-    context_object_name = 'courses'
+def index(request):
+    return HttpResponseRedirect(reverse('lesson:course-index'))
 
 
 class LoginView(FormView):

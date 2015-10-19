@@ -10,7 +10,7 @@ urlpatterns = [
     ## Url user
     ##
     ##################################################
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^login/$', views.LoginView.as_view(), name='login'),
     url(r'^register/$', views.Register.as_view(), name='register'),
     url(r'^logout/$', views.singout, name='logout'),
